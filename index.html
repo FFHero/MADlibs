@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Benjamin Haberman MadLib</title>
+    <meta charset="UTF-8">
+    <style>
+    div {
+        border: 1px solid red;
+        background-color: #c7af90;
+    }
+    .displayNone {
+        display: none;
+    }
+    .displayBlock {
+        display: block;
+    }
+    </style>
+</head>
+<body>
+    <div id="inputPanel" class="displayBlock">
+        <h3>A few questions for you</h3>
+        <p>Any fictional character:
+            <input id="characterOne" type="text" placeholder="character one">
+        </p>
+        <p>Place:
+            <input id="placeOne" type="text" placeholder="place one">
+        </p>
+        <p>Food:
+            <input id="food" type="text" placeholder="food">
+        </p>
+        <p>Any female character:
+            <input id="femaleCharacter" type="text" placeholder="female character">
+        </p>
+        <p>Any fictional character:
+            <input id="characterTwo" type="text" placeholder="character two">
+        </p>
+        <p>Thing/Item:
+            <input id="thingOne" type="text" placeholder="thing one">
+        </p>
+        <p>Any male character:
+            <input id="maleCharacter" type="text" placeholder="male character">
+        </p>
+        <p>Thing/Item:
+            <input id="thingTwo" type="text" placeholder="thing two">
+        </p>
+        <p>Place:
+            <input id="placeTwo" type="text" placeholder="place two">
+        </p>
+        <p>Any fictional character:
+            <input id="characterThree" type="text" placeholder="character three">
+        </p>
+
+        <button id="submit" style="cursor: pointer;">Submit your answers</button>
+        <p id="warning" class="displayBlock">Please provide: Character, Place, Food, Female Character, Another Character, Thing/Item, Male Character, Another Thing/Item, Another Place, Yet Another Character</p>
+
+    </div>
+    <div id="outputPanel" class="displayNone">
+        <p>Your story....</p>
+        <p id="theStory">junk</p>
+        <button id="again" style="cursor: pointer;">Again?</button>
+    </div>
+    <script>
+    var inputPanel = document.querySelector("#inputPanel");
+    var outputPanel = document.querySelector("#outputPanel");
+    var warning = document.querySelector("#warning");
+
+    var submit = document.querySelector("#submit");
+    submit.style.cursor = "pointer";
+
+    submit.addEventListener("click", writeStory, false);
+
+    var again = document.querySelector("#again");
+    again.addEventListener("click", resetPage, false);
+    again.style.cursor = "pointer";
+
+
+    document.querySelector('#characterOne').focus();
+
+    var characterOne = document.querySelector('#characterOne');
+    var placeOne = document.querySelector("#placeOne");
+    var food = document.querySelector('#food');
+    var femaleCharacter = document.querySelector("#femaleCharacter");
+    var characterTwo = document.querySelector("#characterTwo");
+    var thingOne = document.querySelector("#thingOne");
+    var maleCharacter = document.querySelector("#maleCharacter");
+    var thingTwo = document.querySelector("#thingTwo");
+    var placeTwo = document.querySelector("#placeTwo");
+    var characterThree = document.querySelector("#characterThree");
+    var theStory = document.querySelector("#theStory");
+
+    window.addEventListener("keydown", keydownHandler, false);
+
+    characterOne.focus();
+
+        //set the initial display of panels.
+        inputPanel.className = "displayBlock";
+        outputPanel.className = "displayNone";
+        warning.className = "displayNone";
+
+        function keydownHandler(event) {
+            if (event.keyCode === 13) {
+                console.log("Enter key pressed");
+                writeStory();
+            }        
+        }
+
+        function checkComplete() {
+            //verify the user filled in the form
+            //calling this function returns either boolean
+            //if the validation is complete we get TRUE
+            //otherwise it returns a FALSE value
+
+            //alerts are the easy way
+            //we could just toggle the warning paragraph
+            //or you could provide the details to the user
+            //as to which inputs were missing
+
+            var warningText = "Please provide: ";
+            var warningArray = [];
+            if (characterOne.value == ""){
+               warningArray.push("Character");
+           }
+           if (placeOne.value == ""){
+            warningArray.push("Place");
+        }
+        if (food.value == ""){
+            warningArray.push("Food");
+        }
+        if (femaleCharacter.value == ""){
+            warningArray.push("Female Character")
+        }
+        if (characterTwo.value == ""){
+            warningArray.push("Another Character")
+        }
+        if (thingOne.value == ""){
+            warningArray.push("Thing/Item")
+        }
+        if (maleCharacter.value == ""){
+            warningArray.push("Male Character")
+        }
+        if (thingTwo.value == ""){
+            warningArray.push("Another Thing/Item")
+        }
+        if (placeTwo.value == ""){
+            warningArray.push("Another Place")
+        }
+        if (characterThree.value == ""){
+            warningArray.push("Yet Another Character")
+        }
+        if (warningArray.length !== 0){
+                //join prints out the array with the specified delimiter
+                warningText += warningArray.join(", ");
+                warning.innerHTML = warningText;
+                return false;
+            }else {
+                return true;
+            }
+
+        }
+
+        function writeStory() {
+            //verify the form before writing the story
+            if (checkComplete() == true){//remember checkComplete is the form validation
+                //grab the input values to write the story
+                //setting finishedStory to an empty string will guarantee
+                //it shows up empty each time the user enters a story
+                var finishedStory = "";
+                finishedStory += "<p>Me and my friend " + characterOne.value + " went to the " + placeOne.value + " where we ate " + food.value + " all day long.</p>";
+                finishedStory += "<p>We both later decided to later walk down the street in which we encounter " + femaleCharacter.value + " .";
+                finishedStory += "While we were talking to her, " + characterTwo.value + " came out of nowhere and jumped on us for no reason, then ran away.</p>";
+                finishedStory += "<p>After that, I decided to go home, so I said goodbye.</p>";
+                finishedStory += "<p>On the way home, I tripped on a(n) " + thingOne.value + " and broke my arm!</p>";
+                finishedStory += "<p>Someone asked if I was okay and tried to help me up.";
+                finishedStory += "When I looked up, it was " + maleCharacter.value + " ,who seemed to have an angelic aura to him.</p>";
+                finishedStory += "<p>He offered a(n) " + thingTwo.value + " to me to help with the pain, then we went to the doctor... the " + placeTwo.value + " clinic.</p>";
+                finishedStory += "<p>The doctor was Dr. " + characterThree.value + " and he made me feel all better. I think?</p>";
+                finishedStory += "<p>The End.</p>";
+                //do not add too many items in a single line or the code likes to break
+                theStory.innerHTML = finishedStory;
+
+                inputPanel.className = "displayNone";
+                outputPanel.className = "displayBlock";
+                warning.className = "displayNone";
+
+            }else {
+                console.log("the form was not complete");
+                warning.className = "displayBlock";
+            }
+
+
+        }
+
+        function resetPage() {
+            //put stuff here to reset the page so the user can try again
+
+            inputPanel.className = "displayBlock";
+            outputPanel.className = "displayNone";
+            warning.className = "displayNone";
+
+            characterOne.value = "";
+            placeOne.value = "";
+            food.value = "";
+            femaleCharacter.value = "";
+            characterTwo.value = "";
+            thingOne.value = "";
+            maleCharacter.value = "";
+            thingTwo.value = "";
+            placeTwo.value = "";
+            characterThree.value = "";
+
+            characterOne.focus();
+
+
+        }
+        </script>
+    </body>
+    </html>
